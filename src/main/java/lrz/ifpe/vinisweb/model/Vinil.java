@@ -1,3 +1,5 @@
+package lrz.ifpe.vinisweb.model;
+
 // Representa um disco de vinil vendido/locado na loja.
 public class Vinil {
     // Atributos simples do vinil

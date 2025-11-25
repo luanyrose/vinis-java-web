@@ -1,3 +1,5 @@
+package lrz.ifpe.vinisweb.model;
+
 public class ItemCompra {
     // Item que liga um vinil à compra, com quantidade e valor calculado
     private Vinil vinil;

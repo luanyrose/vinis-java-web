@@ -1,3 +1,5 @@
+package lrz.ifpe.vinisweb.model;
+
 import java.util.Date;
 
 public class Main {

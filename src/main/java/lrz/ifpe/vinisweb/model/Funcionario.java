@@ -1,3 +1,5 @@
+package lrz.ifpe.vinisweb.model;
+
 public class Funcionario extends Pessoa {
     // Cargo e salário do funcionário da loja
     private String cargo;

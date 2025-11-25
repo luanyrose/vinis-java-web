@@ -1,3 +1,5 @@
+package lrz.ifpe.vinisweb.model;
+
 // Classe base (mãe) de pessoas do sistema.
 // Outras classes herdam dela para reaproveitar nome, cpf e email.
 public abstract class Pessoa {
