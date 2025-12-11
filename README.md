@@ -69,3 +69,27 @@ objetos, dividindo as responsabilidades entre <em>pessoas</em>, <em>itens (vinis
 Luany Rose Lima de Mélo<br>
 Raquel Mariana Silva Nascimento<br>
 Zion Henrique Parcelino Cordeiro Germano<br>
+
+**Legacy: Projeto Java (exemplo console)**
+
+- **Pasta:** `legacy/Loja-de-vinis-Java`
+- Este diretório contém uma versão Java clássica (console) da Loja de Vinis
+  com classes em pacote default (`Main.java`, `model/`, `dao/`, `util/`).
+- Não foi mesclado diretamente com o projeto Spring Boot para evitar
+  conflitos com as entidades JPA já existentes em `src/main/java`.
+
+Como usar o código legado (opções):
+
+- Compilar e executar com JDK (linha de comando):
+```
+javac legacy\\Loja-de-vinis-Java\\Main.java -d legacy\\Loja-de-vinis-Java\\out
+java -cp legacy\\Loja-de-vinis-Java\\out Main
+```
+
+- Ou abrir a pasta `legacy/Loja-de-vinis-Java` na sua IDE (IntelliJ/Eclipse)
+  e executar `Main` como aplicação Java console.
+
+Observação: o projeto Spring Boot principal (`vinis-java-web`) já contém
+entidades JPA, repositórios e controladores. O código em `legacy/` foi
+preservado como referência/backup. Se quiser que eu converta os DAOs
+antigos para usar Spring Data JPA e integrar funcionalmente, posso fazer.
