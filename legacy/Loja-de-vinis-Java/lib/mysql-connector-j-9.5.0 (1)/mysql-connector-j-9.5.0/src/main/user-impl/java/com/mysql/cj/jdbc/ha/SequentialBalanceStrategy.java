@@ -24,6 +24,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.mysql.cj.jdbc.ConnectionImpl;
 import com.mysql.cj.jdbc.JdbcConnection;
@@ -53,7 +54,7 @@ public class SequentialBalanceStrategy implements BalanceStrategy {
             if (numHosts == 1) {
                 this.currentHostIndex = 0; // pathological case
             } else if (this.currentHostIndex == -1) {
-                int random = (int) Math.floor(Math.random() * numHosts);
+                int random = (int) Math.floor(ThreadLocalRandom.current().nextDouble() * numHosts);
 
                 for (int i = random; i < numHosts; i++) {
                     if (!blockList.containsKey(configuredHosts.get(i))) {

@@ -180,7 +180,7 @@ public class AsyncQueryTest extends BaseCollectionTestCase {
         CompletableFuture.allOf(futures).get();
 
         DbDoc jd = this.collection.find().execute().next();
-        assertEquals(new Integer(49), ((JsonNumber) jd.get("n")).getInteger());
+        assertEquals(Integer.valueOf(49), ((JsonNumber) jd.get("n")).getInteger());
     }
 
     @Test

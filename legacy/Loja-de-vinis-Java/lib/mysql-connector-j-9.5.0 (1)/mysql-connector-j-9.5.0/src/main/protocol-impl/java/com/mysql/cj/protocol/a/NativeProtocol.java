@@ -32,15 +32,9 @@ import java.lang.management.ThreadMXBean;
 import java.lang.ref.SoftReference;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.DataTruncation;
@@ -1782,7 +1776,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
                 // Look for ':'.
                 if (fileName.indexOf(':') != -1) {
                     try {
-                        URL urlFromFileName = new URL(fileName);
+                        URL urlFromFileName = URI.create(fileName).toURL();
                         return new BufferedInputStream(urlFromFileName.openStream());
                     } catch (MalformedURLException e) {
                         // Ignore and fall back to trying this as a file input stream.
@@ -1801,7 +1795,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
                     this.exceptionInterceptor);
         }
         try {
-            safePath = Paths.get(safePathValue).toRealPath();
+            safePath = Path.of(safePathValue).toRealPath();
         } catch (IOException | InvalidPathException e) {
             throw ExceptionFactory.createException(
                     Messages.getString("MysqlIO.60", new Object[] { safePathValue, PropertyKey.allowLoadLocalInfileInPath.getKeyName() }), e,
@@ -1810,7 +1804,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
 
         if (allowUrlInLocalInfile.getValue()) {
             try {
-                URL urlFromFileName = new URL(fileName);
+                URL urlFromFileName = URI.create(fileName).toURL();
 
                 if (!urlFromFileName.getProtocol().equalsIgnoreCase("file")) {
                     throw ExceptionFactory.createException(Messages.getString("MysqlIO.66", new Object[] { urlFromFileName.getProtocol() }),
@@ -1829,17 +1823,17 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
 
                 Path filePath = null;
                 try {
-                    filePath = Paths.get(urlFromFileName.toURI()).toRealPath();
+                    filePath = Path.of(urlFromFileName.toURI()).toRealPath();
                 } catch (InvalidPathException e) {
                     // Windows paths often can't be extracted, but the URL is still valid.
                     String pathString = urlFromFileName.getPath();
                     if (pathString.indexOf(':') != -1 && (pathString.startsWith("/") || pathString.startsWith("\\"))) {
                         pathString = pathString.replaceFirst("^[/\\\\]*", "");
                     }
-                    filePath = Paths.get(pathString).toRealPath();
+                    filePath = Path.of(pathString).toRealPath();
                 } catch (IllegalArgumentException e) {
                     // Try the path directly.
-                    filePath = Paths.get(urlFromFileName.getPath()).toRealPath();
+                    filePath = Path.of(urlFromFileName.getPath()).toRealPath();
                 }
                 if (!filePath.startsWith(safePath)) {
                     throw ExceptionFactory.createException(Messages.getString("MysqlIO.61", new Object[] { filePath, safePath }), this.exceptionInterceptor);
@@ -1851,7 +1845,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
             }
         }
 
-        Path filePath = Paths.get(fileName).toRealPath();
+        Path filePath = Path.of(fileName).toRealPath();
         if (!filePath.startsWith(safePath)) {
             throw ExceptionFactory.createException(Messages.getString("MysqlIO.61", new Object[] { filePath, safePath }), this.exceptionInterceptor);
         }

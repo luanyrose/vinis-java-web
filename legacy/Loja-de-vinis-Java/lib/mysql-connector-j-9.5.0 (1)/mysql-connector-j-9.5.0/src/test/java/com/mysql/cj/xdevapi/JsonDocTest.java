@@ -93,7 +93,7 @@ public class JsonDocTest {
         // Bug MYSQLCONNJ-572
         DbDoc d = JsonParser.parseDoc(new StringReader("{\"x\":\"}\",\"y\":1}"));
         assertEquals("}", ((JsonString) d.get("x")).getString());
-        assertEquals(new Integer(1), ((JsonNumber) d.get("y")).getInteger());
+        assertEquals(Integer.valueOf(1), ((JsonNumber) d.get("y")).getInteger());
     }
 
     @Test

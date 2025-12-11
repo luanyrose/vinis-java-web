@@ -305,8 +305,8 @@ public class ExprParserTest {
         assertEquals("IDENT(a)", parser.tokens.get(0).toString());
         assertEquals("EQ", parser.tokens.get(1).toString());
         Expr e = parser.parse();
-        assertEquals(new Integer(0), parser.placeholderNameToPosition.get("a"));
-        assertEquals(new Integer(1), parser.placeholderNameToPosition.get("b"));
+        assertEquals(Integer.valueOf(0), parser.placeholderNameToPosition.get("a"));
+        assertEquals(Integer.valueOf(1), parser.placeholderNameToPosition.get("b"));
         assertEquals(2, parser.positionalPlaceholderCount);
 
         Expr aEqualsPlaceholder = e.getOperator().getParam(0).getOperator().getParam(0).getOperator().getParam(1);
@@ -324,9 +324,9 @@ public class ExprParserTest {
     public void testNumberedPlaceholders() {
         ExprParser parser = new ExprParser("a == :1 and b == :3 and (c == :2 or d == :2)");
         Expr e = parser.parse();
-        assertEquals(new Integer(0), parser.placeholderNameToPosition.get("1"));
-        assertEquals(new Integer(1), parser.placeholderNameToPosition.get("3"));
-        assertEquals(new Integer(2), parser.placeholderNameToPosition.get("2"));
+        assertEquals(Integer.valueOf(0), parser.placeholderNameToPosition.get("1"));
+        assertEquals(Integer.valueOf(1), parser.placeholderNameToPosition.get("3"));
+        assertEquals(Integer.valueOf(2), parser.placeholderNameToPosition.get("2"));
         assertEquals(3, parser.positionalPlaceholderCount);
 
         Expr aEqualsPlaceholder = e.getOperator().getParam(0).getOperator().getParam(0).getOperator().getParam(1);
@@ -347,9 +347,9 @@ public class ExprParserTest {
     public void testUnnumberedPlaceholders() {
         ExprParser parser = new ExprParser("a = ? and b = ? and (c = 'x' or d = ?)");
         Expr e = parser.parse();
-        assertEquals(new Integer(0), parser.placeholderNameToPosition.get("0"));
-        assertEquals(new Integer(1), parser.placeholderNameToPosition.get("1"));
-        assertEquals(new Integer(2), parser.placeholderNameToPosition.get("2"));
+        assertEquals(Integer.valueOf(0), parser.placeholderNameToPosition.get("0"));
+        assertEquals(Integer.valueOf(1), parser.placeholderNameToPosition.get("1"));
+        assertEquals(Integer.valueOf(2), parser.placeholderNameToPosition.get("2"));
         assertEquals(3, parser.positionalPlaceholderCount);
 
         Expr aEqualsPlaceholder = e.getOperator().getParam(0).getOperator().getParam(0).getOperator().getParam(1);

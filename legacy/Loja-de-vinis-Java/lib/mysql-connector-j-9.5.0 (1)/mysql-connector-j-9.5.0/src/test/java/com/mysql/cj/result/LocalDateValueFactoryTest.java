@@ -112,7 +112,7 @@ public class LocalDateValueFactoryTest extends CommonAsserts {
     @Test
     public void testCreateFromDouble() {
         assertThrows(DataConversionException.class, "Unsupported conversion from DOUBLE to java.time.LocalDate", () -> {
-            LocalDateValueFactoryTest.this.vf.createFromDouble(new Double(2018));
+            LocalDateValueFactoryTest.this.vf.createFromDouble(Double.valueOf(2018));
             return null;
         });
     }

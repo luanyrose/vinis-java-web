@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -228,7 +229,7 @@ public class BlobTest extends BaseTestCase {
         int dataRange = Byte.MAX_VALUE - Byte.MIN_VALUE;
 
         for (int i = 0; i < size; i++) {
-            bOut.write((byte) (Math.random() * dataRange + Byte.MIN_VALUE));
+            bOut.write((byte) (ThreadLocalRandom.current().nextDouble() * dataRange + Byte.MIN_VALUE));
         }
 
         bOut.flush();

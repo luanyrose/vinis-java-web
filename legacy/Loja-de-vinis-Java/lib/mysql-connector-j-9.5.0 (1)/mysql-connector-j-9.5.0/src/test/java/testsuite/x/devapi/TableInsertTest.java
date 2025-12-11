@@ -54,7 +54,7 @@ public class TableInsertTest extends BaseTableTestCase {
             InsertResult res = table.insert("name").values("a").values("b").values("c").execute();
             assertEquals(3, res.getAffectedItemsCount());
             // the *first* ID
-            assertEquals(new Long(1), res.getAutoIncrementValue());
+            assertEquals(Long.valueOf(1), res.getAutoIncrementValue());
         } finally {
             sqlUpdate("drop table if exists lastInsertId");
         }

@@ -22,6 +22,7 @@ package com.mysql.cj.protocol.a;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -99,7 +100,7 @@ public abstract class AbstractValueEncoder implements ValueEncoder {
             scaledBigDecimal = x.setScale((int) scaleOrLength);
         } catch (ArithmeticException ex) {
             try {
-                scaledBigDecimal = x.setScale((int) scaleOrLength, BigDecimal.ROUND_HALF_UP);
+                scaledBigDecimal = x.setScale((int) scaleOrLength, RoundingMode.HALF_UP);
             } catch (ArithmeticException arEx) {
                 throw ExceptionFactory.createException(WrongArgumentException.class,
                         Messages.getString("PreparedStatement.65", new Object[] { scaleOrLength, x.toPlainString() }), this.exceptionInterceptor);

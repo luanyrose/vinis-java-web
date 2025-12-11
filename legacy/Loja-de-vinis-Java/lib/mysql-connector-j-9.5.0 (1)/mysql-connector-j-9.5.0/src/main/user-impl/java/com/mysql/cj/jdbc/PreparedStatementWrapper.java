@@ -972,4 +972,13 @@ public class PreparedStatementWrapper extends StatementWrapper implements Prepar
         }
     }
 
+    public void closeOnCompletion() {
+        // TODO Auto-generated method stub
+    }
+
+    public boolean isCloseOnCompletion() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

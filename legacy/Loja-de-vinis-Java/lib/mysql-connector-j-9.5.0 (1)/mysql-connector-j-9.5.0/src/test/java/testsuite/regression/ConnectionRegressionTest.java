@@ -1020,7 +1020,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
 
                                 try {
 
-                                    getMethods[i].invoke(this.rs, new Object[] { new Integer(1) });
+                                    getMethods[i].invoke(this.rs, new Object[] { Integer.valueOf(1) });
                                 } catch (InvocationTargetException invokeEx) {
                                     // we don't care about bad values, just that the column gets "touched"
                                     if (!invokeEx.getCause().getClass().isAssignableFrom(java.sql.SQLException.class)
@@ -1721,9 +1721,9 @@ public class ConnectionRegressionTest extends BaseTestCase {
         props.setProperty(PropertyKey.sslMode.getKeyName(), SslMode.DISABLED.name());
         props.setProperty(PropertyKey.allowPublicKeyRetrieval.getKeyName(), "true");
         Connection newConn = getConnectionWithProps(props);
-        isValid.invoke(newConn, new Object[] { new Integer(1) });
+        isValid.invoke(newConn, new Object[] { Integer.valueOf(1) });
         Thread.sleep(2000);
-        assertTrue(((Boolean) isValid.invoke(newConn, new Object[] { new Integer(0) })).booleanValue());
+        assertTrue(((Boolean) isValid.invoke(newConn, new Object[] { Integer.valueOf(0) })).booleanValue());
     }
 
     @Test

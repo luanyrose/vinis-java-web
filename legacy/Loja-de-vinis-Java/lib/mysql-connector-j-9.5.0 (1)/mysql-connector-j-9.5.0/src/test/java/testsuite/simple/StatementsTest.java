@@ -65,6 +65,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -1325,21 +1326,21 @@ public class StatementsTest extends BaseTestCase {
                                     : "f12 datetime null, f13 time null, f14 date null, f15 timestamp null)"));
 
             for (int i = 0; i < 1000; i++) {
-                differentTypes[i][0] = Math.random() < .5 ? null : new Byte((byte) (Math.random() * 127));
-                differentTypes[i][1] = Math.random() < .5 ? null : new Short((short) (Math.random() * Short.MAX_VALUE));
-                differentTypes[i][2] = Math.random() < .5 ? null : new Integer((int) (Math.random() * Integer.MAX_VALUE));
-                differentTypes[i][3] = Math.random() < .5 ? null : new Long((long) (Math.random() * Long.MAX_VALUE));
-                differentTypes[i][4] = Math.random() < .5 ? null : new BigDecimal("19.95");
-                differentTypes[i][5] = Math.random() < .5 ? null : new Float(3 + (float) Math.random());
-                differentTypes[i][6] = Math.random() < .5 ? null : new Double(3 + Math.random());
-                differentTypes[i][7] = Math.random() < .5 ? null : randomString();
-                differentTypes[i][8] = Math.random() < .5 ? null : randomString();
-                differentTypes[i][9] = Math.random() < .5 ? null : randomString().getBytes();
-                differentTypes[i][10] = Math.random() < .5 ? null : randomString().getBytes();
-                differentTypes[i][11] = Math.random() < .5 ? null : LocalDateTime.now();
-                differentTypes[i][12] = Math.random() < .5 ? null : new Time(System.currentTimeMillis());
-                differentTypes[i][13] = Math.random() < .5 ? null : new Date(System.currentTimeMillis());
-                differentTypes[i][14] = Math.random() < .5 ? null : new Timestamp(System.currentTimeMillis());
+                differentTypes[i][0] = ThreadLocalRandom.current().nextDouble() < .5 ? null : Byte.valueOf((byte) (ThreadLocalRandom.current().nextDouble() * 127));
+                differentTypes[i][1] = ThreadLocalRandom.current().nextDouble() < .5 ? null : Short.valueOf((short) (ThreadLocalRandom.current().nextDouble() * Short.MAX_VALUE));
+                differentTypes[i][2] = ThreadLocalRandom.current().nextDouble() < .5 ? null : Integer.valueOf((int) (ThreadLocalRandom.current().nextDouble() * Integer.MAX_VALUE));
+                differentTypes[i][3] = ThreadLocalRandom.current().nextDouble() < .5 ? null : Long.valueOf((long) (ThreadLocalRandom.current().nextDouble() * Long.MAX_VALUE));
+                differentTypes[i][4] = ThreadLocalRandom.current().nextDouble() < .5 ? null : new BigDecimal("19.95");
+                differentTypes[i][5] = ThreadLocalRandom.current().nextDouble() < .5 ? null : Float.valueOf(3 + (float) ThreadLocalRandom.current().nextDouble());
+                differentTypes[i][6] = ThreadLocalRandom.current().nextDouble() < .5 ? null : Double.valueOf(3 + ThreadLocalRandom.current().nextDouble());
+                differentTypes[i][7] = ThreadLocalRandom.current().nextDouble() < .5 ? null : randomString();
+                differentTypes[i][8] = ThreadLocalRandom.current().nextDouble() < .5 ? null : randomString();
+                differentTypes[i][9] = ThreadLocalRandom.current().nextDouble() < .5 ? null : randomString().getBytes();
+                differentTypes[i][10] = ThreadLocalRandom.current().nextDouble() < .5 ? null : randomString().getBytes();
+                differentTypes[i][11] = ThreadLocalRandom.current().nextDouble() < .5 ? null : LocalDateTime.now();
+                differentTypes[i][12] = ThreadLocalRandom.current().nextDouble() < .5 ? null : new Time(System.currentTimeMillis());
+                differentTypes[i][13] = ThreadLocalRandom.current().nextDouble() < .5 ? null : new Date(System.currentTimeMillis());
+                differentTypes[i][14] = ThreadLocalRandom.current().nextDouble() < .5 ? null : new Timestamp(System.currentTimeMillis());
             }
 
             props.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "" + useSSPS);
@@ -1445,11 +1446,11 @@ public class StatementsTest extends BaseTestCase {
                             assertEquals(((Float) differentTypes[idx][k]).floatValue(), this.rs.getFloat(k + 1), .1, "On row " + idx + ", column " + (k + 1));
                         } else if (className.equals("java.lang.Byte")) {
                             // special mapping in JDBC for ResultSet.getObject()
-                            assertEquals(new Integer(((Byte) differentTypes[idx][k]).byteValue()), this.rs.getObject(k + 1),
+                            assertEquals(Integer.valueOf(((Byte) differentTypes[idx][k]).byteValue()), this.rs.getObject(k + 1),
                                     "On row " + idx + ", column " + (k + 1));
                         } else if (className.equals("java.lang.Short")) {
                             // special mapping in JDBC for ResultSet.getObject()
-                            assertEquals(new Integer(((Short) differentTypes[idx][k]).shortValue()), this.rs.getObject(k + 1),
+                            assertEquals(Integer.valueOf(((Short) differentTypes[idx][k]).shortValue()), this.rs.getObject(k + 1),
                                     "On row " + idx + ", column " + (k + 1));
                         } else {
                             System.out.println(k + 1 + ": " + this.rs.getMetaData().getColumnName(k + 1) + ": " + differentTypes[idx][k].getClass().getName());//+ " " + this.rs.getObject(k + 1).getClass().getName());
@@ -1758,8 +1759,8 @@ public class StatementsTest extends BaseTestCase {
 
             java.util.Date now = new java.util.Date();
 
-            Object[] valuesToTest = new Object[] { new Byte(Byte.MIN_VALUE), new Short(Short.MIN_VALUE), new Integer(Integer.MIN_VALUE),
-                    new Long(Long.MIN_VALUE), new Double(Double.MIN_VALUE), "\u4E2D\u6587", new BigDecimal(Math.PI), null, // to test isNull
+            Object[] valuesToTest = new Object[] { Byte.valueOf(Byte.MIN_VALUE), Short.valueOf(Short.MIN_VALUE), Integer.valueOf(Integer.MIN_VALUE),
+          Long.valueOf(Long.MIN_VALUE), Double.valueOf(Double.MIN_VALUE), "\u4E2D\u6587", new BigDecimal(Math.PI), null, // to test isNull
                     now // to test serialization
             };
 
