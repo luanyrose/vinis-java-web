@@ -17,9 +17,22 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
     @GetMapping
-    public String listarClientes(Model model) {
-        List<Cliente> clientes = clienteRepository.findAll();
+    public String listarClientes(@RequestParam(value = "busca", required = false) String busca, 
+                                  @RequestParam(value = "tipo", required = false) String tipo,
+                                  Model model) {
+        List<Cliente> clientes;
+        
+        if (busca != null && !busca.isEmpty()) {
+            clientes = clienteRepository.findByNomeContainingIgnoreCase(busca);
+        } else if (tipo != null && !tipo.isEmpty()) {
+            clientes = clienteRepository.findByTipoCliente(tipo);
+        } else {
+            clientes = clienteRepository.findAll();
+        }
+        
         model.addAttribute("clientes", clientes);
+        model.addAttribute("busca", busca);
+        model.addAttribute("tipo", tipo);
         return "clientes/lista";
     }
 

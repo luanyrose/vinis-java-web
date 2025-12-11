@@ -14,6 +14,7 @@
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/vinis">Vinis</a>
                 <a class="nav-link active" href="/clientes">Clientes</a>
+                <a class="nav-link" href="/funcionarios">Funcionários</a>
                 <a class="nav-link" href="/compras">Compras</a>
             </div>
         </div>
@@ -24,6 +25,28 @@
             <h1>Lista de Clientes</h1>
             <a href="/clientes/novo" class="btn btn-primary">Novo Cliente</a>
         </div>
+
+        <form method="get" action="/clientes" class="mb-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" name="busca" class="form-control" placeholder="Buscar por nome..." 
+                               th:value="${busca != null ? busca : ''}">
+                        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <select class="form-select" name="tipo" onchange="this.form.submit()">
+                            <option value="">Filtrar por tipo...</option>
+                            <option value="Regular" th:selected="${tipo == 'Regular'}">Regular</option>
+                            <option value="VIP" th:selected="${tipo == 'VIP'}">VIP</option>
+                        </select>
+                        <a href="/clientes" class="btn btn-outline-secondary">Limpar</a>
+                    </div>
+                </div>
+            </div>
+        </form>
 
         <table class="table table-striped">
             <thead>
