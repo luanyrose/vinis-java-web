@@ -17,9 +17,22 @@ public class VinilController {
     private VinilRepository vinilRepository;
 
     @GetMapping
-    public String listarVinis(Model model) {
-        List<Vinil> vinis = vinilRepository.findAll();
+    public String listarVinis(@RequestParam(value = "busca", required = false) String busca,
+                              @RequestParam(value = "genero", required = false) String genero,
+                              Model model) {
+        List<Vinil> vinis;
+        
+        if (busca != null && !busca.isEmpty()) {
+            vinis = vinilRepository.findByTituloContainingIgnoreCase(busca);
+        } else if (genero != null && !genero.isEmpty()) {
+            vinis = vinilRepository.findByGenero(genero);
+        } else {
+            vinis = vinilRepository.findAll();
+        }
+        
         model.addAttribute("vinis", vinis);
+        model.addAttribute("busca", busca);
+        model.addAttribute("genero", genero);
         return "vinis/lista";
     }
 

@@ -145,7 +145,7 @@ public class SqlTimestampValueFactoryTest extends CommonAsserts {
     @Test
     public void testCreateFromDouble() {
         assertThrows(DataConversionException.class, "Unsupported conversion from DOUBLE to java.sql.Timestamp", () -> {
-            SqlTimestampValueFactoryTest.this.vf.createFromDouble(new Double(2018));
+            SqlTimestampValueFactoryTest.this.vf.createFromDouble(Double.valueOf(2018));
             return null;
         });
     }

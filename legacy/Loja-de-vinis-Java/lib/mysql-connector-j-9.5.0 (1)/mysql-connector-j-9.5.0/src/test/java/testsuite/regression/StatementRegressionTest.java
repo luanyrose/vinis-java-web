@@ -53,7 +53,6 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Array;
 import java.sql.BatchUpdateException;
 import java.sql.Blob;
@@ -3587,25 +3586,25 @@ public class StatementRegressionTest extends BaseTestCase {
         this.stmt.execute("TRUNCATE TABLE Bit_TabXXX");
         this.stmt.execute("insert into Bit_TabXXX values(null,0,null)");
 
-        this.pstmt.setObject(1, new Boolean(true), java.sql.Types.BIT);
+        this.pstmt.setObject(1, Boolean.valueOf(true), java.sql.Types.BIT);
         this.pstmt.executeUpdate();
         assertEquals("true", getSingleIndexedValueWithQuery(1, "SELECT MIN_VAL FROM Bit_TabXXX").toString());
         this.stmt.execute("TRUNCATE TABLE Bit_TabXXX");
         this.stmt.execute("insert into Bit_TabXXX values(null,0,null)");
 
-        this.pstmt.setObject(1, new Boolean(false), java.sql.Types.BIT);
+        this.pstmt.setObject(1, Boolean.valueOf(false), java.sql.Types.BIT);
         this.pstmt.executeUpdate();
         assertEquals("false", getSingleIndexedValueWithQuery(1, "SELECT MIN_VAL FROM Bit_TabXXX").toString());
         this.stmt.execute("TRUNCATE TABLE Bit_TabXXX");
         this.stmt.execute("insert into Bit_TabXXX values(null,0,null)");
 
-        this.pstmt.setObject(1, new Byte("1"), java.sql.Types.BIT);
+        this.pstmt.setObject(1, Byte.valueOf("1"), java.sql.Types.BIT);
         this.pstmt.executeUpdate();
         assertEquals("true", getSingleIndexedValueWithQuery(1, "SELECT MIN_VAL FROM Bit_TabXXX").toString());
         this.stmt.execute("TRUNCATE TABLE Bit_TabXXX");
         this.stmt.execute("insert into Bit_TabXXX values(null,0,null)");
 
-        this.pstmt.setObject(1, new Byte("0"), java.sql.Types.BIT);
+        this.pstmt.setObject(1, Byte.valueOf("0"), java.sql.Types.BIT);
         this.pstmt.executeUpdate();
         assertEquals("false", getSingleIndexedValueWithQuery(1, "SELECT MIN_VAL FROM Bit_TabXXX").toString());
     }
@@ -3749,8 +3748,8 @@ public class StatementRegressionTest extends BaseTestCase {
         cstmt.executeUpdate();
 
         boolean bRetVal = cstmt.getBoolean(2);
-        oRetVal = new Boolean(bRetVal);
-        minBooleanVal = new Boolean("false");
+        oRetVal = Boolean.valueOf(bRetVal);
+        minBooleanVal = Boolean.valueOf("false");
         this.rs = this.stmt.executeQuery(Min_Val_Query);
         assertEquals(minBooleanVal, oRetVal);
     }
@@ -5399,7 +5398,7 @@ public class StatementRegressionTest extends BaseTestCase {
         Date d3 = new Date(currentTimeMillis() + 1250000);
 
         for (int i = 0; i < numberOfRows; i++) {
-            this.pstmt.setObject(1, new Integer(i), Types.INTEGER);
+            this.pstmt.setObject(1, Integer.valueOf(i), Types.INTEGER);
             this.pstmt.setObject(2, String.valueOf(i), Types.VARCHAR);
             this.pstmt.setObject(3, String.valueOf(i * 0.1), Types.VARCHAR);
             this.pstmt.setObject(4, String.valueOf(i / 3), Types.VARCHAR);
@@ -5575,7 +5574,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 this.prevSql = asSql;
                 try {
                     ParameterBindings b = ((ClientPreparedStatement) interceptedQuery).getParameterBindings();
-                    vals.add(new Integer(b.getInt(1)));
+                    vals.add(Integer.valueOf(b.getInt(1)));
 
                 } catch (SQLException ex) {
                     throw ExceptionFactory.createException(ex.getMessage(), ex);
@@ -5613,9 +5612,9 @@ public class StatementRegressionTest extends BaseTestCase {
                 ps.addBatch();
                 ps.executeBatch();
                 List<Integer> vals = Bug39426Interceptor.vals;
-                assertEquals(new Integer(1), vals.get(0));
-                assertEquals(new Integer(2), vals.get(1));
-                assertEquals(new Integer(3), vals.get(2));
+                assertEquals(Integer.valueOf(1), vals.get(0));
+                assertEquals(Integer.valueOf(2), vals.get(1));
+                assertEquals(Integer.valueOf(3), vals.get(2));
             } finally {
                 if (c != null) {
                     c.close();
@@ -13165,7 +13164,7 @@ public class StatementRegressionTest extends BaseTestCase {
         final String data = "1\tMySQL\n2\tConnector/J";
         final String fileName = "TestBug77368.tsv";
 
-        Files.write(Paths.get(fileName), data.getBytes());
+        Files.write(Path.of(fileName), data.getBytes());
 
         try {
             Properties props = new Properties();
@@ -13185,7 +13184,7 @@ public class StatementRegressionTest extends BaseTestCase {
             testConn.close();
         } finally {
             try {
-                Files.delete(Paths.get(fileName));
+                Files.delete(Path.of(fileName));
             } catch (FileNotFoundException e) {
             }
         }
@@ -14606,13 +14605,13 @@ public class StatementRegressionTest extends BaseTestCase {
         String filePrivDir = getMysqlVariable("secure_file_priv");
         assumeTrue(filePrivDir != null && !"NULL".equalsIgnoreCase(filePrivDir),
                 "To run this test the server needs to be started with the option\"--secure-file-priv=\"");
-        filePrivDir = filePrivDir.isEmpty() ? Paths.get("").toAbsolutePath().toString() : Paths.get(filePrivDir).toRealPath().toString();
+        filePrivDir = filePrivDir.isEmpty() ? Path.of("").toAbsolutePath().toString() : Path.of(filePrivDir).toRealPath().toString();
         filePrivDir = filePrivDir.endsWith(File.separator) ? filePrivDir : filePrivDir + File.separator;
 
         createTable("testBug107543", "(txt VARCHAR(100))");
         this.stmt.executeUpdate("INSERT INTO testBug107543 VALUES ('MySQL Connector/J')");
 
-        Path dataFilePath = Paths.get(filePrivDir, "testbug107543.dat");
+        Path dataFilePath = Path.of(filePrivDir, "testbug107543.dat");
         for (String statement : new String[] { "SELECT * FROM", "TABLE" }) {
             for (String outType : new String[] { "OUTFILE", "DUMPFILE" }) {
                 final String sql = statement + " testBug107543 INTO " + outType + " '" + dataFilePath.toString().replace("\\", "\\\\") + "'";

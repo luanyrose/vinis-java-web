@@ -88,15 +88,15 @@ public class CollectionFindTest extends BaseCollectionTestCase {
         DocResult docs = this.collection.find().fields("$._id as _id, $.g as g, 1 + 1 as q").execute();
         DbDoc doc = docs.next();
         assertEquals("the_id", ((JsonString) doc.get("_id")).getString());
-        assertEquals(new Integer(1), ((JsonNumber) doc.get("g")).getInteger());
-        assertEquals(new Integer(2), ((JsonNumber) doc.get("q")).getInteger());
+        assertEquals(Integer.valueOf(1), ((JsonNumber) doc.get("g")).getInteger());
+        assertEquals(Integer.valueOf(2), ((JsonNumber) doc.get("q")).getInteger());
 
         // multiple projection strings
         docs = this.collection.find().fields("$._id as _id", "$.g as g", "1 + 1 as q").execute();
         doc = docs.next();
         assertEquals("the_id", ((JsonString) doc.get("_id")).getString());
-        assertEquals(new Integer(1), ((JsonNumber) doc.get("g")).getInteger());
-        assertEquals(new Integer(2), ((JsonNumber) doc.get("q")).getInteger());
+        assertEquals(Integer.valueOf(1), ((JsonNumber) doc.get("g")).getInteger());
+        assertEquals(Integer.valueOf(2), ((JsonNumber) doc.get("q")).getInteger());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class CollectionFindTest extends BaseCollectionTestCase {
         DbDoc doc = docs.next();
         assertEquals("the_id", ((JsonString) doc.get("_id")).getString());
         assertEquals(-20, ((JsonNumber) doc.get("g2")).getBigDecimal().intValue());
-        assertEquals(new Integer(2), ((JsonNumber) doc.get("q")).getInteger());
+        assertEquals(Integer.valueOf(2), ((JsonNumber) doc.get("q")).getInteger());
     }
 
     /**
@@ -162,7 +162,7 @@ public class CollectionFindTest extends BaseCollectionTestCase {
         Table coll = this.schema.getCollectionAsTable(this.collection.getName());
         Row r = coll.select("doc").execute().next();
         DbDoc doc = r.getDbDoc("doc");
-        assertEquals(new Integer(1), ((JsonNumber) doc.get("xyz")).getInteger());
+        assertEquals(Integer.valueOf(1), ((JsonNumber) doc.get("xyz")).getInteger());
     }
 
     @SuppressWarnings("deprecation")
@@ -402,7 +402,7 @@ public class CollectionFindTest extends BaseCollectionTestCase {
         }
 
         DbDoc d = this.collection.find().fields("CAST($.x as SIGNED) as x").execute().next();
-        assertEquals(new Integer(100), ((JsonNumber) d.get("x")).getInteger());
+        assertEquals(Integer.valueOf(100), ((JsonNumber) d.get("x")).getInteger());
     }
 
     @Test
@@ -414,25 +414,25 @@ public class CollectionFindTest extends BaseCollectionTestCase {
 
         DocResult docs = this.collection.find().orderBy("$.x, $.y").execute();
         assertTrue(docs.hasNext());
-        assertEquals(new Integer(3), ((JsonNumber) docs.next().get("_id")).getInteger());
+        assertEquals(Integer.valueOf(3), ((JsonNumber) docs.next().get("_id")).getInteger());
         assertTrue(docs.hasNext());
-        assertEquals(new Integer(4), ((JsonNumber) docs.next().get("_id")).getInteger());
+        assertEquals(Integer.valueOf(4), ((JsonNumber) docs.next().get("_id")).getInteger());
         assertTrue(docs.hasNext());
-        assertEquals(new Integer(2), ((JsonNumber) docs.next().get("_id")).getInteger());
+        assertEquals(Integer.valueOf(2), ((JsonNumber) docs.next().get("_id")).getInteger());
         assertTrue(docs.hasNext());
-        assertEquals(new Integer(1), ((JsonNumber) docs.next().get("_id")).getInteger());
+        assertEquals(Integer.valueOf(1), ((JsonNumber) docs.next().get("_id")).getInteger());
         assertFalse(docs.hasNext());
 
         // multiple SortExprStr
         docs = this.collection.find().sort("$.x", "$.y").execute();
         assertTrue(docs.hasNext());
-        assertEquals(new Integer(3), ((JsonNumber) docs.next().get("_id")).getInteger());
+        assertEquals(Integer.valueOf(3), ((JsonNumber) docs.next().get("_id")).getInteger());
         assertTrue(docs.hasNext());
-        assertEquals(new Integer(4), ((JsonNumber) docs.next().get("_id")).getInteger());
+        assertEquals(Integer.valueOf(4), ((JsonNumber) docs.next().get("_id")).getInteger());
         assertTrue(docs.hasNext());
-        assertEquals(new Integer(2), ((JsonNumber) docs.next().get("_id")).getInteger());
+        assertEquals(Integer.valueOf(2), ((JsonNumber) docs.next().get("_id")).getInteger());
         assertTrue(docs.hasNext());
-        assertEquals(new Integer(1), ((JsonNumber) docs.next().get("_id")).getInteger());
+        assertEquals(Integer.valueOf(1), ((JsonNumber) docs.next().get("_id")).getInteger());
         assertFalse(docs.hasNext());
     }
 
@@ -831,7 +831,7 @@ public class CollectionFindTest extends BaseCollectionTestCase {
 
         DbDoc doc = this.collection.getOne("existingId");
         assertNotNull(doc);
-        assertEquals(new Integer(3), ((JsonNumber) doc.get("a")).getInteger());
+        assertEquals(Integer.valueOf(3), ((JsonNumber) doc.get("a")).getInteger());
 
         doc = this.collection.getOne("NotExistingId");
         assertNull(doc);
@@ -2306,7 +2306,7 @@ public class CollectionFindTest extends BaseCollectionTestCase {
             coll3.add("{ \"_id\":3, \"overlaps\": \"overlaps\",\"age\":30}").execute();
             docs = coll3.find("[''] OVERLAPS $.list").execute();
             assertEquals(1, docs.count());
-            assertEquals(new Integer(1), ((JsonNumber) docs.next().get("_id")).getInteger());
+            assertEquals(Integer.valueOf(1), ((JsonNumber) docs.next().get("_id")).getInteger());
 
             table = this.schema.getCollectionAsTable("coll3");
             rows = table.select("doc->$._id as _id").where("[''] overlaps $.list").execute();
@@ -2315,7 +2315,7 @@ public class CollectionFindTest extends BaseCollectionTestCase {
 
             docs = coll3.find("[' '] OVERLAPS $.list").execute();
             assertEquals(1, docs.count());
-            assertEquals(new Integer(2), ((JsonNumber) docs.next().get("_id")).getInteger());
+            assertEquals(Integer.valueOf(2), ((JsonNumber) docs.next().get("_id")).getInteger());
 
             rows = table.select("doc->$._id as _id").where("[' '] overlaps $.list").execute();
             r = rows.next();
@@ -2323,7 +2323,7 @@ public class CollectionFindTest extends BaseCollectionTestCase {
 
             docs = coll3.find("'overlaps' OVERLAPS $.name").execute();
             assertEquals(1, docs.count());
-            assertEquals(new Integer(2), ((JsonNumber) docs.next().get("_id")).getInteger());
+            assertEquals(Integer.valueOf(2), ((JsonNumber) docs.next().get("_id")).getInteger());
 
             rows = table.select("doc->$._id as _id").where("'overlaps' overlaps $.name").execute();
             r = rows.next();

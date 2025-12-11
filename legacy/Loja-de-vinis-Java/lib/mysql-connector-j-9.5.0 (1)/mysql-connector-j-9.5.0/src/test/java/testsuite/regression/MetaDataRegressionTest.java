@@ -53,6 +53,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
@@ -1317,7 +1318,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
         StringBuilder buf = new StringBuilder(columnNameLength + 2);
 
         for (int i = 0; i < columnNameLength; i++) {
-            buf.append((char) (Math.random() * 26 + 65));
+            buf.append((char) (ThreadLocalRandom.current().nextDouble() * 26 + 65));
         }
 
         String colName = buf.toString();
@@ -1889,7 +1890,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
 
             assertEquals(typeName, rsmd.getColumnTypeName(i + 1));
             assertEquals(this.rs.getInt("COLUMN_SIZE"), rsmd.getPrecision(i + 1), typeName);
-            assertEquals(new Integer(rsmd.getPrecision(i + 1)), typeNameToPrecision.get(typeName), typeName);
+            assertEquals(Integer.valueOf(rsmd.getPrecision(i + 1)), typeNameToPrecision.get(typeName), typeName);
         }
 
         Properties props = new Properties();
@@ -2181,7 +2182,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
         for (int i = 0; i < typeFields.length; i++) {
             if (Modifier.isStatic(typeFields[i].getModifiers())) {
                 try {
-                    sqlTypesMap.put(new Integer(typeFields[i].getInt(null)), "java.sql.Types." + typeFields[i].getName());
+                    sqlTypesMap.put(Integer.valueOf(typeFields[i].getInt(null)), "java.sql.Types." + typeFields[i].getName());
                 } catch (IllegalArgumentException | IllegalAccessException e) {
                     // ignore
                 }
@@ -2369,8 +2370,8 @@ public class MetaDataRegressionTest extends BaseTestCase {
         ResultSetMetaData rsmd = rsToCheck.getMetaData();
         assertEquals(types.length, rsmd.getColumnCount());
         for (int i = 0; i < types.length; i++) {
-            String expectedType = sqlTypesMap.get(new Integer(types[i]));
-            String actualType = sqlTypesMap.get(new Integer(rsmd.getColumnType(i + 1)));
+            String expectedType = sqlTypesMap.get(Integer.valueOf(types[i]));
+            String actualType = sqlTypesMap.get(Integer.valueOf(rsmd.getColumnType(i + 1)));
             assertNotNull(expectedType);
             assertNotNull(actualType);
             assertEquals(expectedType, actualType, "Unexpected type in column " + (i + 1));
@@ -2535,7 +2536,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
             this.rs = dbMeta.getProcedureColumns(con.getCatalog(), null, "sptestBug38367", null);
             while (this.rs.next()) {
                 String columnName = this.rs.getString(4);
-                Short columnNullable = new Short(this.rs.getShort(12));
+                Short columnNullable = Short.valueOf(this.rs.getShort(12));
                 assertTrue(columnNullable.intValue() == java.sql.DatabaseMetaData.procedureNullable,
                         "Parameter " + columnName + " is not java.sql.DatabaseMetaData.procedureNullable.");
             }

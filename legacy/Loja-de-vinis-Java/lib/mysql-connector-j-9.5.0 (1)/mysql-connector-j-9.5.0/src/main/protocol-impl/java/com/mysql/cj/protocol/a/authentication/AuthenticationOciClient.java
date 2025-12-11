@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.Base64;
 import java.util.List;
@@ -141,7 +140,7 @@ public class AuthenticationOciClient implements AuthenticationPlugin<NativePacke
             String configProfile = this.protocol.getPropertySet().getStringProperty(PropertyKey.ociConfigProfile.getKeyName()).getStringValue();
             if (StringUtils.isNullOrEmpty(configFilePath)) {
                 configFile = ConfigFileReader.parseDefault(configProfile);
-            } else if (Files.exists(Paths.get(configFilePath))) {
+            } else if (Files.exists(Path.of(configFilePath))) {
                 configFile = ConfigFileReader.parse(configFilePath, configProfile);
             } else {
                 throw ExceptionFactory.createException(Messages.getString("AuthenticationOciClientPlugin.ConfigFileNotFound"));
@@ -171,7 +170,7 @@ public class AuthenticationOciClient implements AuthenticationPlugin<NativePacke
             return;
         }
         try {
-            Path keyFilePath = Paths.get(this.configKeyFile);
+            Path keyFilePath = Path.of(this.configKeyFile);
             if (Files.notExists(keyFilePath)) {
                 throw ExceptionFactory.createException(Messages.getString("AuthenticationOciClientPlugin.PrivateKeyNotFound"));
             }
@@ -194,7 +193,7 @@ public class AuthenticationOciClient implements AuthenticationPlugin<NativePacke
             return;
         }
         try {
-            Path securityTokenFilePath = Paths.get(this.configSecurityTokenFile);
+            Path securityTokenFilePath = Path.of(this.configSecurityTokenFile);
             if (Files.notExists(securityTokenFilePath)) {
                 throw ExceptionFactory.createException(Messages.getString("AuthenticationOciClientPlugin.SecurityTokenFileNotFound"));
             }
@@ -202,7 +201,7 @@ public class AuthenticationOciClient implements AuthenticationPlugin<NativePacke
             if (size > 10240) { // Fail if above 10KB.
                 throw ExceptionFactory.createException(Messages.getString("AuthenticationOciClientPlugin.SecurityTokenTooBig"));
             }
-            this.token = Files.readAllBytes(Paths.get(this.configSecurityTokenFile));
+            this.token = Files.readAllBytes(Path.of(this.configSecurityTokenFile));
         } catch (IOException e) {
             throw ExceptionFactory.createException(Messages.getString("AuthenticationOciClientPlugin.FailedReadingSecurityTokenFile"), e);
         }

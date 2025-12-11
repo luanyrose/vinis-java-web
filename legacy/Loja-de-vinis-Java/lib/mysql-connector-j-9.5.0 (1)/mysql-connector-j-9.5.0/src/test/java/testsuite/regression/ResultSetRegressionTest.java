@@ -2009,7 +2009,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
 
             createStatement.append(" NULL DEFAULT NULL");
 
-            wasDatetimeTypeList.add(new Boolean(wasDateTime));
+            wasDatetimeTypeList.add(Boolean.valueOf(wasDateTime));
         }
 
         createStatement.append("\n)");
@@ -2949,17 +2949,17 @@ public class ResultSetRegressionTest extends BaseTestCase {
             // int[] maxRows = new int[] {1, 4, 5, 11, 12, 13, 16, 50, 51, 52, 100};
             int[] fetchSizes = new int[] { 1, 4, 10, 25, 100 };
             List<Integer> maxRows = new ArrayList<>();
-            maxRows.add(new Integer(1));
+            maxRows.add(Integer.valueOf(1));
 
             for (int i = 0; i < fetchSizes.length; i++) {
                 if (fetchSizes[i] != 1) {
-                    maxRows.add(new Integer(fetchSizes[i] - 1));
+                    maxRows.add(Integer.valueOf(fetchSizes[i] - 1));
                 }
 
-                maxRows.add(new Integer(fetchSizes[i]));
+                maxRows.add(Integer.valueOf(fetchSizes[i]));
 
                 if (i != fetchSizes.length - 1) {
-                    maxRows.add(new Integer(fetchSizes[i] + 1));
+                    maxRows.add(Integer.valueOf(fetchSizes[i] + 1));
                 }
             }
 
@@ -3251,8 +3251,8 @@ public class ResultSetRegressionTest extends BaseTestCase {
         String messageLowBound = null;
 
         Method[] getterMethods = ResultSet.class.getMethods();
-        Integer zeroIndex = new Integer(0);
-        Integer twoIndex = new Integer(2);
+        Integer zeroIndex = Integer.valueOf(0);
+        Integer twoIndex = Integer.valueOf(2);
 
         for (int i = 0; i < getterMethods.length; i++) {
             Class<?>[] parameterTypes = getterMethods[i].getParameterTypes();

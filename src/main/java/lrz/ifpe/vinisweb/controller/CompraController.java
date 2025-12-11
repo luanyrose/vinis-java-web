@@ -28,9 +28,17 @@ public class CompraController {
     private VinilRepository vinilRepository;
 
     @GetMapping
-    public String listarCompras(Model model) {
-        List<Compra> compras = compraRepository.findAll();
+    public String listarCompras(@RequestParam(value = "busca", required = false) String busca, Model model) {
+        List<Compra> compras;
+        
+        if (busca != null && !busca.isEmpty()) {
+            compras = compraRepository.findByClienteCpf(busca);
+        } else {
+            compras = compraRepository.findAll();
+        }
+        
         model.addAttribute("compras", compras);
+        model.addAttribute("busca", busca);
         return "compras/lista";
     }
 
@@ -65,6 +73,12 @@ public class CompraController {
                 .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
         model.addAttribute("compra", compra);
         return "compras/detalhes";
+    }
+
+    @GetMapping("/{id}/excluir")
+    public String excluirCompra(@PathVariable Long id) {
+        compraRepository.deleteById(id);
+        return "redirect:/compras";
     }
 }
 

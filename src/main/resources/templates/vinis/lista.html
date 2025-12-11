@@ -14,6 +14,7 @@
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link active" href="/vinis">Vinis</a>
                 <a class="nav-link" href="/clientes">Clientes</a>
+                <a class="nav-link" href="/funcionarios">Funcionários</a>
                 <a class="nav-link" href="/compras">Compras</a>
             </div>
         </div>
@@ -24,6 +25,31 @@
             <h1>Lista de Vinis</h1>
             <a href="/vinis/novo" class="btn btn-primary">Novo Vinil</a>
         </div>
+
+        <form method="get" action="/vinis" class="mb-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" name="busca" class="form-control" placeholder="Buscar por título..." 
+                               th:value="${busca != null ? busca : ''}">
+                        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <select class="form-select" name="genero" onchange="this.form.submit()">
+                            <option value="">Filtrar por gênero...</option>
+                            <option value="Rock" th:selected="${genero == 'Rock'}">Rock</option>
+                            <option value="Pop" th:selected="${genero == 'Pop'}">Pop</option>
+                            <option value="Jazz" th:selected="${genero == 'Jazz'}">Jazz</option>
+                            <option value="Clássico" th:selected="${genero == 'Clássico'}">Clássico</option>
+                            <option value="Eletrônico" th:selected="${genero == 'Eletrônico'}">Eletrônico</option>
+                        </select>
+                        <a href="/vinis" class="btn btn-outline-secondary">Limpar</a>
+                    </div>
+                </div>
+            </div>
+        </form>
 
         <table class="table table-striped">
             <thead>

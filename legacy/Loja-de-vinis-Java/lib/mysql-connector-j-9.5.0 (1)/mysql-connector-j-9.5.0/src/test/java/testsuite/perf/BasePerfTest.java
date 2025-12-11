@@ -129,7 +129,7 @@ public abstract class BasePerfTest extends BaseTestCase {
      */
     protected void addResult(double value) {
         this.numIterations++;
-        this.testValuesList.add(new Double(value));
+        this.testValuesList.add(Double.valueOf(value));
 
         this.sumValue += value;
         this.squareSumValue += value * value;

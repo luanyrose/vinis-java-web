@@ -103,7 +103,7 @@ public class StressRegressionTest extends BaseTestCase {
         List<Long> elapsedTimes = new ArrayList<>();
 
         for (int i = 0; i < numThreadsToStart; i++) {
-            elapsedTimes.add(new Long(threads[i].elapsedTimeMillis));
+            elapsedTimes.add(Long.valueOf(threads[i].elapsedTimeMillis));
 
             avgElapsedTimeMillis += (double) threads[i].elapsedTimeMillis / numThreadsToStart;
         }

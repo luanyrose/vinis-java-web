@@ -88,4 +88,26 @@ public class LoadBalancedMySQLConnection extends MultiHostMySQLConnection implem
         }
     }
 
+    public void abort(java.util.concurrent.Executor executor) {
+        // TODO Auto-generated method stub
+    }
+
+    public int getNetworkTimeout() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public java.lang.String getSchema() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void setNetworkTimeout(java.util.concurrent.Executor executor, int milliseconds) {
+        // TODO Auto-generated method stub
+    }
+
+    public void setSchema(java.lang.String schema) throws java.sql.SQLException {
+        // TODO Auto-generated method stub
+    }
+
 }

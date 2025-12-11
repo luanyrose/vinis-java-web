@@ -132,9 +132,9 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         DocResult res = this.collection.find().execute();
         DbDoc jd = res.next();
         JsonArray xArray = (JsonArray) jd.get("x");
-        assertEquals(new Integer(8), ((JsonNumber) xArray.get(0)).getInteger());
-        assertEquals(new Integer(16), ((JsonNumber) xArray.get(1)).getInteger());
-        assertEquals(new Integer(32), ((JsonNumber) xArray.get(2)).getInteger());
+        assertEquals(Integer.valueOf(8), ((JsonNumber) xArray.get(0)).getInteger());
+        assertEquals(Integer.valueOf(16), ((JsonNumber) xArray.get(1)).getInteger());
+        assertEquals(Integer.valueOf(32), ((JsonNumber) xArray.get(2)).getInteger());
         // TODO: better arrayAppend() overloads?
         assertEquals("64", ((JsonString) xArray.get(3)).getString());
         assertEquals(4, xArray.size());
@@ -154,10 +154,10 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         DocResult res = this.collection.find().execute();
         DbDoc jd = res.next();
         JsonArray xArray = (JsonArray) jd.get("x");
-        assertEquals(new Integer(1), ((JsonNumber) xArray.get(0)).getInteger());
-        assertEquals(new Integer(43), ((JsonNumber) xArray.get(1)).getInteger());
-        assertEquals(new Integer(2), ((JsonNumber) xArray.get(2)).getInteger());
-        assertEquals(new Integer(44), ((JsonNumber) xArray.get(3)).getInteger());
+        assertEquals(Integer.valueOf(1), ((JsonNumber) xArray.get(0)).getInteger());
+        assertEquals(Integer.valueOf(43), ((JsonNumber) xArray.get(1)).getInteger());
+        assertEquals(Integer.valueOf(2), ((JsonNumber) xArray.get(2)).getInteger());
+        assertEquals(Integer.valueOf(44), ((JsonNumber) xArray.get(3)).getInteger());
         assertEquals(4, xArray.size());
     }
 
@@ -575,7 +575,7 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         doc = this.collection.getOne("id1");
         assertNotNull(doc);
         assertEquals("id1", ((JsonString) doc.get("_id")).getString());
-        assertEquals(new Integer(3), ((JsonNumber) doc.get("a")).getInteger());
+        assertEquals(Integer.valueOf(3), ((JsonNumber) doc.get("a")).getInteger());
         assertEquals(1, this.collection.count());
 
         // null document
@@ -610,7 +610,7 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
 
         DocResult result = this.collection.find("name = 'bob'").execute();
         DbDoc doc = result.fetchOne();
-        assertEquals(new Integer(45), ((JsonNumber) doc.get("age")).getInteger());
+        assertEquals(Integer.valueOf(45), ((JsonNumber) doc.get("age")).getInteger());
 
         // After fixing server Bug#88230 (MySQL 8.0.4) the next operation returns
         // decimal age value 46.0 instead of integer 46

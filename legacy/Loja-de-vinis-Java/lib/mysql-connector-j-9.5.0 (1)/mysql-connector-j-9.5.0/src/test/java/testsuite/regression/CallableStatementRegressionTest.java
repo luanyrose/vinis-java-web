@@ -938,7 +938,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                     if (args.length == 2 && args[0].equals(Integer.TYPE)) {
                         if (!args[1].isPrimitive()) {
                             try {
-                                setters[i].invoke(callable, new Object[] { new Integer(2), null });
+                                setters[i].invoke(callable, new Object[] { Integer.valueOf(2), null });
                             } catch (InvocationTargetException ive) {
                                 if (!(ive.getCause() instanceof SQLFeatureNotSupportedException)) {
                                     throw ive;
@@ -947,7 +947,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                         } else {
                             if (args[1].getName().equals("boolean")) {
                                 try {
-                                    setters[i].invoke(callable, new Object[] { new Integer(2), Boolean.FALSE });
+                                    setters[i].invoke(callable, new Object[] { Integer.valueOf(2), Boolean.FALSE });
                                 } catch (InvocationTargetException ive) {
                                     if (!(ive.getCause() instanceof SQLFeatureNotSupportedException)) {
                                         throw ive;
@@ -958,7 +958,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                             if (args[1].getName().equals("byte")) {
 
                                 try {
-                                    setters[i].invoke(callable, new Object[] { new Integer(2), new Byte((byte) 0) });
+                                    setters[i].invoke(callable, new Object[] { Integer.valueOf(2), Byte.valueOf((byte) 0) });
                                 } catch (InvocationTargetException ive) {
                                     if (!(ive.getCause() instanceof SQLFeatureNotSupportedException)) {
                                         throw ive;
@@ -970,7 +970,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                             if (args[1].getName().equals("double")) {
 
                                 try {
-                                    setters[i].invoke(callable, new Object[] { new Integer(2), new Double(0) });
+                                    setters[i].invoke(callable, new Object[] { Integer.valueOf(2), Double.valueOf(0) });
                                 } catch (InvocationTargetException ive) {
                                     if (!(ive.getCause() instanceof SQLFeatureNotSupportedException)) {
                                         throw ive;
@@ -982,7 +982,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                             if (args[1].getName().equals("float")) {
 
                                 try {
-                                    setters[i].invoke(callable, new Object[] { new Integer(2), new Float(0) });
+                                    setters[i].invoke(callable, new Object[] { Integer.valueOf(2), Float.valueOf(0) });
                                 } catch (InvocationTargetException ive) {
                                     if (!(ive.getCause() instanceof SQLFeatureNotSupportedException)) {
                                         throw ive;
@@ -994,7 +994,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                             if (args[1].getName().equals("int")) {
 
                                 try {
-                                    setters[i].invoke(callable, new Object[] { new Integer(2), new Integer(0) });
+                                    setters[i].invoke(callable, new Object[] { Integer.valueOf(2), Integer.valueOf(0) });
                                 } catch (InvocationTargetException ive) {
                                     if (!(ive.getCause() instanceof SQLFeatureNotSupportedException)) {
                                         throw ive;
@@ -1005,7 +1005,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
 
                             if (args[1].getName().equals("long")) {
                                 try {
-                                    setters[i].invoke(callable, new Object[] { new Integer(2), new Long(0) });
+                                    setters[i].invoke(callable, new Object[] { Integer.valueOf(2), Long.valueOf(0) });
                                 } catch (InvocationTargetException ive) {
                                     if (!(ive.getCause() instanceof SQLFeatureNotSupportedException)) {
                                         throw ive;
@@ -1015,7 +1015,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
 
                             if (args[1].getName().equals("short")) {
                                 try {
-                                    setters[i].invoke(callable, new Object[] { new Integer(2), new Short((short) 0) });
+                                    setters[i].invoke(callable, new Object[] { Integer.valueOf(2), Short.valueOf((short) 0) });
                                 } catch (InvocationTargetException ive) {
                                     if (!(ive.getCause() instanceof SQLFeatureNotSupportedException)) {
                                         throw ive;
@@ -1065,8 +1065,8 @@ public class CallableStatementRegressionTest extends BaseTestCase {
 
         System.out.println("invoke getBoolean method");
         boolean bRetVal = cstmt.getBoolean(2);
-        oRetVal = new Boolean(bRetVal);
-        minBooleanVal = new Boolean("false");
+        oRetVal = Boolean.valueOf(bRetVal);
+        minBooleanVal = Boolean.valueOf("false");
         this.rs = this.stmt.executeQuery(Min_Val_Query);
         if (oRetVal.equals(minBooleanVal)) {
             System.out.println("getBoolean returns the Minimum value ");

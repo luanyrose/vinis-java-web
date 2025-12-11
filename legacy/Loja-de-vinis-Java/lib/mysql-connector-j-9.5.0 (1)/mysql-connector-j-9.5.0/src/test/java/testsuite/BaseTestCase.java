@@ -51,6 +51,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.SSLContext;
@@ -811,12 +812,12 @@ public abstract class BaseTestCase {
     }
 
     protected String randomString() {
-        int length = (int) (Math.random() * 32);
+        int length = (int) (ThreadLocalRandom.current().nextDouble() * 32);
 
         StringBuilder buf = new StringBuilder(length);
 
         for (int i = 0; i < length; i++) {
-            buf.append((char) (Math.random() * 26 + 'a'));
+            buf.append((char) (ThreadLocalRandom.current().nextDouble() * 26 + 'a'));
         }
 
         return buf.toString();
@@ -998,19 +999,19 @@ public abstract class BaseTestCase {
             }
             String type = types[i].toString();
             if (type.equals("short")) {
-                vals[i] = new Short((short) 0);
+                vals[i] = Short.valueOf((short) 0);
             } else if (type.equals("int")) {
-                vals[i] = new Integer(0);
+                vals[i] = Integer.valueOf(0);
             } else if (type.equals("long")) {
-                vals[i] = new Long(0);
+                vals[i] = Long.valueOf(0);
             } else if (type.equals("boolean")) {
-                vals[i] = new Boolean(false);
+                vals[i] = Boolean.valueOf(false);
             } else if (type.equals("byte")) {
-                vals[i] = new Byte((byte) 0);
+                vals[i] = Byte.valueOf((byte) 0);
             } else if (type.equals("double")) {
-                vals[i] = new Double(0.0);
+                vals[i] = Double.valueOf(0.0);
             } else if (type.equals("float")) {
-                vals[i] = new Float(0.0);
+                vals[i] = Float.valueOf("0.0");
             }
         }
     }

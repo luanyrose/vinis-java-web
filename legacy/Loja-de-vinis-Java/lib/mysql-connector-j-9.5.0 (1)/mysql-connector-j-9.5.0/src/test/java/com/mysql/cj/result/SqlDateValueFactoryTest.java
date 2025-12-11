@@ -127,7 +127,7 @@ public class SqlDateValueFactoryTest extends CommonAsserts {
     @Test
     public void testCreateFromDouble() {
         assertThrows(DataConversionException.class, "Unsupported conversion from DOUBLE to java.sql.Date", () -> {
-            SqlDateValueFactoryTest.this.vf.createFromDouble(new Double(2018));
+            SqlDateValueFactoryTest.this.vf.createFromDouble(Double.valueOf(2018));
             return null;
         });
     }

@@ -44,7 +44,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -1882,7 +1881,7 @@ public class ConnectionTest extends BaseTestCase {
     public void testAllowLoadLocalInfileInPath() throws Exception {
         assumeTrue(supportsLoadLocalInfile(this.stmt), "This test requires the server started with --local-infile=ON");
 
-        Path tmpDir = Paths.get(System.getProperty("java.io.tmpdir"));
+        Path tmpDir = Path.of(System.getProperty("java.io.tmpdir"));
 
         /*
          * Create the following directories structure:

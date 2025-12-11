@@ -315,7 +315,7 @@ public class XProtocolTest extends InternalXBaseTestCase {
         assertFalse(this.protocol.hasResults());
         res = this.protocol.readQueryResult(new SqlResultBuilder(this.protocol.getServerSession().getDefaultTimeZone(), this.protocol.getPropertySet()));
         assertEquals(2, res.getAffectedItemsCount());
-        assertEquals(new Long(7), res.getAutoIncrementValue());
+        assertEquals(Long.valueOf(7), res.getAutoIncrementValue());
 
         this.protocol.send(this.messageBuilder.buildSqlStatement("drop table mysqlx_sqlDmlTest"), 0);
         assertFalse(this.protocol.hasResults());

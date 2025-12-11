@@ -210,8 +210,8 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
         List<Integer> ints = this.session.query(builder.buildSqlStatement("select 2 union select 1"), null,
                 r -> r.getValue(0, new IntegerValueFactory(new DefaultPropertySet())), Collectors.toList());
         assertEquals(2, ints.size());
-        assertEquals(new Integer(2), ints.get(0));
-        assertEquals(new Integer(1), ints.get(1));
+        assertEquals(Integer.valueOf(2), ints.get(0));
+        assertEquals(Integer.valueOf(1), ints.get(1));
     }
 
 }

@@ -499,7 +499,7 @@ public class SessionTest extends DevApiBaseTestCase {
             assertEquals(1, res.getAffectedItemsCount());
             assertEquals(0, res.getWarningsCount());
             assertFalse(res.getWarnings().hasNext());
-            assertEquals(new Long(1), res.getAutoIncrementValue());
+            assertEquals(Long.valueOf(1), res.getAutoIncrementValue());
         } finally {
             sqlUpdate("drop table if exists lastInsertId");
         }
@@ -2503,8 +2503,8 @@ public class SessionTest extends DevApiBaseTestCase {
             DocResult docs = collection.find().fields("$._id as _id, $.g as g, 1 + 1 as q").execute();
             DbDoc doc = docs.next();
             assertEquals("the_id", ((JsonString) doc.get("_id")).getString());
-            assertEquals(new Integer(1), ((JsonNumber) doc.get("g")).getInteger());
-            assertEquals(new Integer(2), ((JsonNumber) doc.get("q")).getInteger());
+            assertEquals(Integer.valueOf(1), ((JsonNumber) doc.get("g")).getInteger());
+            assertEquals(Integer.valueOf(2), ((JsonNumber) doc.get("q")).getInteger());
 
             int cnt = 0;
             for (Iterator<Warning> warn = docs.getWarnings(); warn.hasNext();) {

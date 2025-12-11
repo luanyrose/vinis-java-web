@@ -232,8 +232,8 @@ public class Util {
                 value2 = (Number) map2.get(key);
             } else {
                 try {
-                    value1 = new Double(entry.getValue().toString());
-                    value2 = new Double(map2.get(key).toString());
+                    value1 = Double.valueOf(entry.getValue().toString());
+                    value2 = Double.valueOf(map2.get(key).toString());
                 } catch (NumberFormatException nfe) {
                     continue;
                 }
